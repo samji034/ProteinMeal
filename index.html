@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#F7F6F2">
+  <title>ProteinMeals — Mes recettes protéinées</title>
+  <meta name="description" content="Toutes mes recettes de cuisine protéinées : calories, protéines et étapes détaillées.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== EN-TÊTE ===================== -->
+  <header class="site-header">
+    <h1 class="site-title">Protein<span>Meals</span></h1>
+    <p class="site-subtitle">Mes recettes riches en protéines</p>
+
+    <div class="controls">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/>
+        </svg>
+        <input id="search" type="search" placeholder="Rechercher un plat…" autocomplete="off" aria-label="Rechercher un plat">
+      </div>
+
+      <div class="sort-wrap">
+        <button id="sort-btn" class="sort-btn" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+            <line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="17" x2="9" y2="17"/>
+          </svg>
+          <span>Trier par</span>
+        </button>
+        <div id="sort-menu" class="sort-menu" role="menu" hidden>
+          <button class="sort-option" data-sort="proteines" role="menuitemradio" aria-checked="false">
+            <span class="check" aria-hidden="true"></span>
+            Protéines <small>(+ d'abord)</small>
+          </button>
+          <button class="sort-option" data-sort="calories" role="menuitemradio" aria-checked="false">
+            <span class="check" aria-hidden="true"></span>
+            Calories <small>(− d'abord)</small>
+          </button>
+          <p class="sort-hint">Rien de coché = ordre alphabétique</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== LISTE DES RECETTES ===================== -->
+  <main>
+    <p id="count" class="count" aria-live="polite"></p>
+    <ul id="recipe-list" class="recipe-list"></ul>
+    <p id="empty" class="empty" hidden>Aucun plat ne correspond à ta recherche.</p>
+  </main>
+
+  <!-- ===================== POPUP RECETTE ===================== -->
+  <div id="modal" class="modal" hidden>
+    <div class="modal-backdrop"></div>
+    <article class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button id="modal-close" class="modal-close" aria-label="Fermer la recette">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+      </button>
+      <div class="modal-img-wrap">
+        <img id="modal-img" alt="">
+      </div>
+      <div class="modal-body">
+        <h2 id="modal-title"></h2>
+        <div id="modal-stats" class="modal-stats"></div>
+        <h3>Ingrédients</h3>
+        <ul id="modal-ingredients" class="ingredients"></ul>
+        <h3>Préparation</h3>
+        <ol id="modal-steps" class="steps"></ol>
+      </div>
+    </article>
+  </div>
+
+  <footer class="site-footer">ProteinMeals · fait maison 🍳</footer>
+
+  <script src="js/recipes.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
