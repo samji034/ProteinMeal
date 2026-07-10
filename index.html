@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/style.css?v=5">
 </head>
 <body>
 
@@ -36,12 +36,13 @@
         <div id="sort-menu" class="sort-menu" role="menu" hidden>
           <button class="sort-option" data-sort="proteines" role="menuitemradio" aria-checked="false">
             <span class="check" aria-hidden="true"></span>
-            Protéines
+            Protéines <small>(+ d'abord)</small>
           </button>
           <button class="sort-option" data-sort="calories" role="menuitemradio" aria-checked="false">
             <span class="check" aria-hidden="true"></span>
-            Calories
+            Calories <small>(− d'abord)</small>
           </button>
+          <p class="sort-hint">Rien de coché = ordre alphabétique</p>
         </div>
       </div>
     </div>
@@ -123,7 +124,7 @@
 
   <footer class="site-footer">ProteinMeals · fait maison 🍳</footer>
 
-  <script src="js/recipes.js?v=4"></script>
-  <script src="js/app.js?v=4"></script>
+  <script src="js/recipes.js?v=5"></script>
+  <script src="js/app.js?v=5"></script>
 </body>
 </html>
