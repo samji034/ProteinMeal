@@ -150,7 +150,7 @@ const RECETTES = [
 },
 {
   nom: "Tasty crousty fit",
-  image: "https://images.unsplash.com/photo-1690412211514-414846fe5ef8?w=640&q=60&auto=format&fit=crop",
+  image: "https://www.marciatack.fr/wp-content/uploads/2026/03/tasty-crousty-maison.jpg",
   personnes: 1,
   calories: 940,
   proteines: 67,
@@ -182,7 +182,7 @@ const RECETTES = [
 },
 {
   nom: "Brioche aux pépites de chocolat",
-  image: "https://images.unsplash.com/photo-1608039755401-742074f0548d?w=640&q=60&auto=format&fit=crop",
+  image: "https://www.cookomix.com/wp-content/uploads/mediapress/members/91578/26404/rn_image_picker_lib_temp_27aa1a2b-5b54-480f-a92e-bc2c1b1073bc-800x600.jpg",
   personnes: 1,
   calories: 272,
   proteines: 22,
@@ -206,8 +206,8 @@ const RECETTES = [
   ]
 },
 {
-  nom: "Burrito mac bacon fit",
-  image: "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=640&q=60&auto=format&fit=crop",
+  nom: "Burrito boeuf bacon",
+  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9ZqRqG6UnjW6JKt_BKLUvl3F_8D1LweyBDDZ-3SPZdXE1aw3yMGFxh7UG&s=10",
   personnes: 6,
   calories: 271,
   proteines: 29.7,
@@ -238,8 +238,8 @@ const RECETTES = [
   ]
 },
 {
-  nom: "Wrap de courgette croustillant au poulet",
-  image: "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=640&q=60&auto=format&fit=crop",
+  nom: "Wrap de courgette au poulet",
+  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9py5RoJxfQ-XWy4AUfsknNwo4tUP3e_lMSlOKOye-S2qplS5-sF_tjz9R&s=10",
   personnes: 1,
   calories: 419,
   proteines: 50.3,
@@ -267,7 +267,7 @@ const RECETTES = [
 },
 {
   nom: "Pizza rolls express au skyr",
-  image: "https://images.unsplash.com/photo-1628191139360-408a56698b96?w=640&q=60&auto=format&fit=crop",
+  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6A7pzxR8syi08-QJ0U3ttKsrO7EQ9_Hg9gUjLsj7BBEyc4YhIs6ipKHP3&s=10",
   personnes: 4,
   calories: 220,
   proteines: 17,
@@ -294,8 +294,8 @@ const RECETTES = [
   ]
 },
 {
-  nom: "6 wraps protéinées au poulet",
-  image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=640&q=60&auto=format&fit=crop",
+  nom: "Quesadillas poulet haricots",
+  image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjGNijcNH5-uFaWr8IwTN6HL5WlETFSl3dt9Ais5waWr3mS0kw9enWmRA6&s=10",
   personnes: 6,
   calories: 450,
   proteines: 50,
