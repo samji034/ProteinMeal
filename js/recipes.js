@@ -147,5 +147,183 @@ const RECETTES = [
     "Laisser reposer le smoothie pendant 2 à 3 minutes pour permettre aux graines de chia d'épaissir naturellement la texture.",
     "Ajouter un filet de miel si désiré, servir et déguster aussitôt."
   ]
+},
+{
+  nom: "Tasty crousty fit",
+  image: "https://images.unsplash.com/photo-1690412211514-414846fe5ef8?w=640&q=60&auto=format&fit=crop",
+  personnes: 1,
+  calories: 940,
+  proteines: 67,
+  temps: "25 min",
+  ingredients: [
+    { qte: 100, unite: "g", nom: "riz" },
+    { qte: 15, unite: "g", nom: "sauce aigre-douce" },
+    { qte: 10, unite: "g", nom: "oignon crispy" },
+    { qte: 4, unite: "g", nom: "huile d'olive" },
+    { qte: 50, unite: "g", nom: "crème liquide", note: "4% de MG" },
+    { qte: 30, unite: "g", nom: "panko" },
+    { qte: 150, unite: "g", nom: "filet de poulet" },
+    { qte: 160, unite: "g", nom: "skyr" },
+    { qte: 1.5, nom: "œuf", note: "environ 75g" },
+    { qte: 4, unite: "g", nom: "vinaigre de riz" },
+    { nom: "sel, poivre, paprika" }
+  ],
+  etapes: [
+    "Rincer le riz puis le faire cuire de manière classique (au cuiseur ou à la casserole).",
+    "Pour la sauce façon mayonnaise : faire cuire les œufs dans l'eau bouillante pour obtenir des œufs durs.",
+    "Dans un mixeur, ajouter les œufs durs écalés, le skyr, le vinaigre de riz, l'huile d'olive, du sel et du poivre. Mixer une minute pour obtenir une texture onctueuse.",
+    "Préparer les tenders : couper le filet de poulet en morceaux de taille moyenne.",
+    "Dans un récipient, mélanger le poulet avec un peu de skyr supplémentaire, du paprika, du sel et du poivre.",
+    "Enrober chaque morceau de poulet dans la chapelure panko.",
+    "Faire cuire les tenders au Air Fryer à 180°C pendant 12 minutes, en pensant à les retourner à mi-cuisson (utiliser un spray d'huile d'olive si besoin). Couper ensuite le poulet en petits morceaux.",
+    "Dans un bol, mélanger une partie de la sauce mixée avec la crème à 4% et un peu de poivre pour l'alléger.",
+    "Dresser l'assiette : disposer le riz chaud, napper généreusement de sauce blanche, ajouter les morceaux de poulet croustillant, remettre un filet de sauce blanche, puis terminer avec la sauce aigre-douce et les oignons crispy."
+  ]
+},
+{
+  nom: "Brioche aux pépites de chocolat",
+  image: "https://images.unsplash.com/photo-1608039755401-742074f0548d?w=640&q=60&auto=format&fit=crop",
+  personnes: 1,
+  calories: 272,
+  proteines: 22,
+  temps: "45 min",
+  ingredients: [
+    { qte: 200, unite: "g", nom: "blanc d'œuf" },
+    { qte: 10, unite: "g", nom: "maïzena" },
+    { qte: 25, unite: "g", nom: "pépite de chocolat" },
+    { nom: "stévia" },
+    { nom: "extrait de vanille", note: "ou flavpowder" },
+    { nom: "sel" }
+  ],
+  etapes: [
+    "Préchauffer le cour à 180°C.",
+    "Ajouter une pincée de sel dans les blancs d'œuf et les monter fermement en neige à l'aide d'un batteur électrique.",
+    "Une fois les blancs bien fermes, ajouter la maïzena, la stévia et l'extrait de vanille (ou la flavpowder pour le goût).",
+    "Continuer de battre doucement pour incorporer les ingrédients sans faire retomber les blancs.",
+    "Ajouter les pépites de chocolat et mélanger délicatement une dernière fois à l'aide d'une spatule.",
+    "Disposer la préparation sur une plaque recouverte de papier cuisson en formant une grosse boule bien bombée.",
+    "Enfourner pendant 30 à 35 minutes à 180°C jusqu'à ce que la brioche soit bien gonflée et dorée."
+  ]
+},
+{
+  nom: "Burrito mac bacon fit",
+  image: "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=640&q=60&auto=format&fit=crop",
+  personnes: 6,
+  calories: 271,
+  proteines: 29.7,
+  temps: "20 min",
+  ingredients: [
+    { qte: 500, unite: "g", nom: "bœuf haché", note: "5% de MG" },
+    { qte: 6, nom: "wrap", note: "extra fin" },
+    { qte: 100, unite: "g", nom: "fromage râpé", note: "protéiné" },
+    { qte: 40, unite: "g", nom: "bacon fumé" },
+    { qte: 20, unite: "g", nom: "moutarde de Dijon" },
+    { qte: 40, unite: "g", nom: "ketchup", note: "0% de sucre" },
+    { qte: 130, unite: "g", nom: "skyr" },
+    { qte: 40, unite: "g", nom: "concentré de tomate" },
+    { qte: 1, nom: "oignon" },
+    { nom: "cornichon", note: "au vinaigre" },
+    { nom: "sauce chipotle", note: "optionnelle" },
+    { nom: "sel, poivre" }
+  ],
+  etapes: [
+    "Émincer finement l'oignon et le faire revenir dans une poêle bien chaude.",
+    "Ajouter le concentré de tomate avec un petit filet d'eau, puis incorporer le bœuf haché 5% et laisser cuire l'ensemble.",
+    "Pendant la cuisson de la viande, préparer la sauce : dans un récipient, mélanger le skyr, la moutarde de Dijon, le ketchup 0%, les cornichons coupés en petits dés et la sauce chipotle si désirée.",
+    "Râper le fromage protéiné.",
+    "Une fois la viande cuite, verser la sauce directement dans la poêle avec le mélange de bœuf haché et d'oignons, puis mélanger hors du feu.",
+    "Passer au dressage : sur chaque wrap extra fin, déposer une portion de farce à la viande, ajouter un peu de fromage râpé et des morceaux de bacon fumé.",
+    "Plier soigneusement les wraps pour former des burritos hermétiques.",
+    "Faire dorer les burritos à la poêle quelques minutes de chaque côté pour que le wrap soit croustillant et que le fromage soit bien fondant."
+  ]
+},
+{
+  nom: "Wrap de courgette croustillant au poulet",
+  image: "https://images.unsplash.com/photo-1626700051175-6518c4793f4f?w=640&q=60&auto=format&fit=crop",
+  personnes: 1,
+  calories: 419,
+  proteines: 50.3,
+  temps: "35 min",
+  ingredients: [
+    { qte: 350, unite: "g", nom: "courgette" },
+    { qte: 100, unite: "g", nom: "poulet", note: "pané ou tenders" },
+    { qte: 50, unite: "g", nom: "fromage râpé", note: "protéiné" },
+    { qte: 1, nom: "œuf" },
+    { qte: 2, nom: "fromage frais", note: "nature ou ail et fines herbes, 0% de MG" },
+    { nom: "salade" },
+    { nom: "sauce barbecue", note: "ou sauce grill" }
+  ],
+  etapes: [
+    "Préchauffer le four à 200°C.",
+    "À l'aide d'une mandoline, couper la courgette en fines lamelles régulières.",
+    "Sur une plaque de cuisson recouverte de papier sulfurisé, disposer les rondelles de courgette en les faisant se chevaucher pour former un grand rectangle compact.",
+    "Battre l'œuf et l'étaler uniformément au pinceau sur toute la surface des courgettes.",
+    "Parsemer le fromage râpé protéiné sur le dessus.",
+    "Enfourner à 200°C pendant 25 minutes, jusqu'à ce que la base soit bien solidaire et dorée.",
+    "Laisser refroidir quelques instants la plaque de courgette.",
+    "Étaler les deux carrés de fromage frais sur la base, puis disposer les morceaux de poulet pané, les feuilles de salade et ajouter un filet de sauce grill.",
+    "Rouler délicatement l'ensemble sur lui-même de manière bien serrée pour former le wrap, couper en deux et déguster."
+  ]
+},
+{
+  nom: "Pizza rolls express au skyr",
+  image: "https://images.unsplash.com/photo-1628191139360-408a56698b96?w=640&q=60&auto=format&fit=crop",
+  personnes: 4,
+  calories: 220,
+  proteines: 17,
+  temps: "30 min",
+  ingredients: [
+    { qte: 120, unite: "g", nom: "farine de blé" },
+    { qte: 120, unite: "g", nom: "skyr" },
+    { qte: 5, unite: "g", nom: "levure chimique" },
+    { qte: 70, unite: "g", nom: "sauce tomate" },
+    { qte: 120, unite: "g", nom: "jambon", note: "blanc, dégraissé" },
+    { qte: 70, unite: "g", nom: "mozzarella", note: "râpée" },
+    { nom: "sel" }
+  ],
+  etapes: [
+    "Dans un grand récipient, mélanger la farine de blé, la levure chimique, le skyr et une pincée de sel.",
+    "Pétrir le mélange à la main jusqu'à obtenir une boule de pâte homogène.",
+    "Sur un plan de travail bien fariné, étaler la pâte à l'aide d'un rouleau à pâtisserie.",
+    "Napper la surface de la pâte avec une partie de la sauce tomate, puis répartir une partie de la mozzarella râpée (environ 50g) et le jambon préalablement coupé en petits morceaux.",
+    "Rouler délicatement la pâte sur elle-même de manière bien serrée pour former un boudin.",
+    "Découper le boudin en 4 portions égales.",
+    "Disposer les 4 rolls debout dans un plat allant au four.",
+    "Ajouter le restant de sauce tomate, de mozzarella râpée (les 20g restants) et éventuellement les derniers morceaux de jambon sur le dessus pour le gratin.",
+    "Enfourner à 180°C pendant 20 à 25 minutes (ou au Air Fryer pendant 15 minutes à 170°C) jusqu'à ce que les rolls soient bien gonflés et gratinés."
+  ]
+},
+{
+  nom: "6 wraps protéinées au poulet",
+  image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=640&q=60&auto=format&fit=crop",
+  personnes: 6,
+  calories: 450,
+  proteines: 50,
+  temps: "30 min",
+  ingredients: [
+    { qte: 750, unite: "g", nom: "blanc de poulet" },
+    { qte: 200, unite: "g", nom: "haricot rouge", note: "ou haricots noirs" },
+    { qte: 40, unite: "g", nom: "concentré de tomate" },
+    { qte: 1, nom: "citron", note: "le jus" },
+    { qte: 60, unite: "ml", nom: "sauce barbecue", note: "0% de calories" },
+    { qte: 6, nom: "wrap", note: "à l'épeautre ou à l'avoine" },
+    { qte: 160, unite: "g", nom: "fromage râpé", note: "protéiné" },
+    { nom: "fromage blanc", note: "0% de MG, ou skyr" },
+    { nom: "sauce sriracha" },
+    { nom: "miel" },
+    { nom: "persil" },
+    { nom: "sel, poivre, paprika, ail en poudre" }
+  ],
+  etapes: [
+    "Faire cuire les blancs de poulet dans une casserole d'eau bouillante pendant environ 15 minutes.",
+    "Une fois cuits, effilocher les blancs de poulet à chaud dans un grand récipient à l'aide d'un batteur électrique (ou de deux fourchettes).",
+    "Ajouter au poulet effiloché le concentré de tomate, les épices (paprika, ail, sel, poivre), la sauce barbecue 0% et le jus de citron. Ajouter les haricots rouges rincés et égouttés.",
+    "Faire réchauffer et lier brièvement ce mélange dans une poêle à feu doux.",
+    "Pendant ce temps, préparer la sauce crémeuse dans un bol en mélangeant du fromage blanc (ou skyr), un filet de sauce barbecue, de la sauce sriracha, un peu de miel, du paprika, de l'ail en poudre et du persil émincé.",
+    "Incorporer le mélange de poulet et de haricots directement dans le bol de sauce crémeuse et bien mélanger le tout.",
+    "Dresser les quesadillas : sur chaque wrap, étaler une portion de farce sur une moitié, parsemer de fromage protéiné râpé, puis replier le wrap en deux.",
+    "Faire griller les quesadillas à la poêle (en s'aidant d'un couvercle ou d'un poids pour bien tasser) ou dans un appareil à panini jusqu'à ce que le wrap soit croustillant et le fromage fondu.",
+    "Note optionnelle : vous pouvez les envelopper individuellement dans du papier aluminium pour les conserver au réfrigérateur ou les congeler."
+  ]
 }
 ];
