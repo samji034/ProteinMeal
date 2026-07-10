@@ -184,7 +184,7 @@ const RECETTES = [
   },
   {
   nom: "Buns farcis au bœuf et mozzarella",
-  image: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=640&q=60&auto=format&fit=crop",
+  image: "https://res.cloudinary.com/hv9ssmzrz/image/fetch/c_fill,f_auto,h_1200,q_auto:eco,w_1200/https://s3-eu-west-1.amazonaws.com/images-ca-1-0-1-eu/recipe_photos/original/121951/P1140505.jpg",
   personnes: 2,
   calories: 520,
   proteines: 41,
