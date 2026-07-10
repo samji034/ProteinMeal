@@ -303,7 +303,11 @@ main {
   align-items: flex-end;
   justify-content: center;
 }
+
+/* Indispensable : sans ça, display:flex écrase l'attribut hidden
+   et le popup reste visible en permanence */
 .modal[hidden] { display: none; }
+
 .modal-backdrop {
   position: absolute;
   inset: 0;
@@ -438,6 +442,156 @@ main {
 
 /* Verrouille le scroll de la page quand le popup est ouvert */
 body.modal-open { overflow: hidden; }
+
+/* ===================== LISTE DE COURSES ===================== */
+
+/* Bouton dans le popup recette */
+.add-cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.add-cart-btn svg { width: 19px; height: 19px; }
+.add-cart-btn:active { transform: scale(0.98); }
+.add-cart-btn.added { background: #14532D; }
+
+/* Bouton flottant en bas à droite */
+.cart-btn {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  z-index: 90;
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(30, 122, 76, 0.45);
+  transition: transform 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cart-btn:active { transform: scale(0.93); }
+.cart-btn svg { width: 25px; height: 25px; }
+
+.cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--amber);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--bg);
+}
+
+/* Contenu du popup liste de courses */
+.cart-card { min-height: 40dvh; }
+
+.cart-empty { color: var(--ink-soft); }
+
+.cart-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+.cart-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.cart-list li:last-child { border-bottom: 0; }
+
+.cart-item-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.cart-remove {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: #FBE9E7;
+  color: #C0392B;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cart-remove:active { background: #F5CFC9; }
+
+.cart-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  position: sticky;
+  bottom: 0;
+  background: var(--card);
+  padding: 12px 0 4px;
+}
+
+.btn-primary,
+.btn-ghost {
+  flex: 1;
+  padding: 13px;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary {
+  border: 0;
+  background: var(--green);
+  color: #fff;
+}
+
+.btn-primary:active { background: #14532D; }
+
+.btn-ghost {
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink-soft);
+}
+
+.btn-ghost:active { border-color: #C0392B; color: #C0392B; }
 
 .site-footer {
   text-align: center;

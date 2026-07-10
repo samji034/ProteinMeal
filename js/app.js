@@ -24,10 +24,35 @@
   const modalStats = document.getElementById("modal-stats");
   const modalIngredients = document.getElementById("modal-ingredients");
   const modalSteps = document.getElementById("modal-steps");
+  const modalAddCart = document.getElementById("modal-add-cart");
+
+  // Liste de courses
+  const cartBtn = document.getElementById("cart-btn");
+  const cartCount = document.getElementById("cart-count");
+  const cartModal = document.getElementById("cart-modal");
+  const cartBackdrop = cartModal.querySelector(".modal-backdrop");
+  const cartClose = document.getElementById("cart-close");
+  const cartListEl = document.getElementById("cart-list");
+  const cartEmpty = document.getElementById("cart-empty");
+  const cartActions = document.getElementById("cart-actions");
+  const cartCopy = document.getElementById("cart-copy");
+  const cartClear = document.getElementById("cart-clear");
 
   // --- État ---
   let currentSort = null; // null = alphabétique | "proteines" | "calories"
   let currentQuery = "";
+  let currentRecipe = null; // recette ouverte dans le popup
+
+  // Liste de courses persistante (survit à la fermeture du site)
+  const CART_KEY = "proteinmeals_courses";
+  let cart = [];
+  try {
+    cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+  } catch (e) { cart = []; }
+
+  function saveCart() {
+    try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {}
+  }
 
   // Supprime les accents pour une recherche tolérante ("proteine" trouve "protéiné")
   function normalize(str) {
@@ -150,6 +175,9 @@
 
   // --- Popup recette ---
   function openModal(r) {
+    currentRecipe = r;
+    modalAddCart.classList.remove("added");
+    document.getElementById("modal-add-cart-label").textContent = "Ajouter à la liste de courses";
     modalImg.src = r.image;
     modalImg.alt = r.nom;
     modalTitle.textContent = r.nom;
@@ -192,9 +220,129 @@
   modalClose.addEventListener("click", closeModal);
   modalBackdrop.addEventListener("click", closeModal); // clic en dehors = fermer
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !modal.hidden) closeModal();
+    if (e.key !== "Escape") return;
+    if (!cartModal.hidden) closeCart();
+    else if (!modal.hidden) closeModal();
+  });
+
+  // ============================================================
+  // LISTE DE COURSES
+  // ============================================================
+
+  function updateCartBadge() {
+    cartCount.textContent = String(cart.length);
+    cartCount.hidden = cart.length === 0;
+  }
+
+  function renderCart() {
+    cartListEl.innerHTML = "";
+
+    cart.forEach(function (item, index) {
+      const li = document.createElement("li");
+
+      const text = document.createElement("span");
+      text.className = "cart-item-text";
+      text.textContent = item;
+
+      const remove = document.createElement("button");
+      remove.className = "cart-remove";
+      remove.type = "button";
+      remove.textContent = "✕";
+      remove.setAttribute("aria-label", "Supprimer : " + item);
+      remove.addEventListener("click", function () {
+        cart.splice(index, 1);
+        saveCart();
+        renderCart();
+      });
+
+      li.append(text, remove);
+      cartListEl.append(li);
+    });
+
+    cartEmpty.hidden = cart.length > 0;
+    cartActions.hidden = cart.length === 0;
+    updateCartBadge();
+  }
+
+  // Ajout des ingrédients de la recette ouverte (sans doublons exacts)
+  modalAddCart.addEventListener("click", function () {
+    if (!currentRecipe) return;
+    let added = 0;
+    currentRecipe.ingredients.forEach(function (ing) {
+      if (!cart.includes(ing)) {
+        cart.push(ing);
+        added++;
+      }
+    });
+    saveCart();
+    renderCart();
+    modalAddCart.classList.add("added");
+    document.getElementById("modal-add-cart-label").textContent =
+      added > 0 ? "Ajouté à la liste ✓" : "Déjà dans la liste ✓";
+  });
+
+  // Ouverture / fermeture du popup liste de courses
+  function openCart() {
+    renderCart();
+    cartModal.hidden = false;
+    document.body.classList.add("modal-open");
+    cartModal.querySelector(".modal-card").scrollTop = 0;
+  }
+
+  function closeCart() {
+    cartModal.hidden = true;
+    // Ne réactive le scroll que si le popup recette n'est pas ouvert derrière
+    if (modal.hidden) document.body.classList.remove("modal-open");
+  }
+
+  cartBtn.addEventListener("click", openCart);
+  cartClose.addEventListener("click", closeCart);
+  cartBackdrop.addEventListener("click", closeCart);
+
+  // Copier toute la liste dans le presse-papiers
+  cartCopy.addEventListener("click", function () {
+    const texte = "🛒 Liste de courses ProteinMeals\n\n" +
+      cart.map(function (item) { return "- " + item; }).join("\n");
+
+    function feedback(ok) {
+      cartCopy.textContent = ok ? "Copié ✓" : "Impossible de copier";
+      setTimeout(function () { cartCopy.textContent = "Copier la liste"; }, 2000);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texte)
+        .then(function () { feedback(true); })
+        .catch(function () { feedback(fallbackCopy(texte)); });
+    } else {
+      feedback(fallbackCopy(texte));
+    }
+  });
+
+  // Méthode de secours pour les vieux navigateurs mobiles
+  function fallbackCopy(texte) {
+    const ta = document.createElement("textarea");
+    ta.value = texte;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.append(ta);
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    ta.remove();
+    return ok;
+  }
+
+  // Tout vider
+  cartClear.addEventListener("click", function () {
+    if (cart.length === 0) return;
+    if (confirm("Vider toute la liste de courses ?")) {
+      cart = [];
+      saveCart();
+      renderCart();
+    }
   });
 
   // --- Premier rendu ---
   render();
+  updateCartBadge();
 })();

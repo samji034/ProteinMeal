@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 
@@ -42,6 +42,7 @@
             <span class="check" aria-hidden="true"></span>
             Calories <small>(− d'abord)</small>
           </button>
+          <p class="sort-hint">Rien de coché = ordre alphabétique</p>
         </div>
       </div>
     </div>
@@ -69,6 +70,13 @@
       <div class="modal-body">
         <h2 id="modal-title"></h2>
         <div id="modal-stats" class="modal-stats"></div>
+        <button id="modal-add-cart" class="add-cart-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/>
+            <path d="M2 3h3l2.6 12.5a1.8 1.8 0 0 0 1.8 1.5h9.2a1.8 1.8 0 0 0 1.8-1.4L22 7H6"/>
+          </svg>
+          <span id="modal-add-cart-label">Ajouter à la liste de courses</span>
+        </button>
         <h3>Ingrédients</h3>
         <ul id="modal-ingredients" class="ingredients"></ul>
         <h3>Préparation</h3>
@@ -77,9 +85,39 @@
     </article>
   </div>
 
+  <!-- ===================== BOUTON LISTE DE COURSES ===================== -->
+  <button id="cart-btn" class="cart-btn" type="button" aria-label="Ouvrir la liste de courses">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/>
+      <path d="M2 3h3l2.6 12.5a1.8 1.8 0 0 0 1.8 1.5h9.2a1.8 1.8 0 0 0 1.8-1.4L22 7H6"/>
+    </svg>
+    <span id="cart-count" class="cart-count" hidden>0</span>
+  </button>
+
+  <!-- ===================== POPUP LISTE DE COURSES ===================== -->
+  <div id="cart-modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close-cart></div>
+    <article class="modal-card cart-card" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+      <button id="cart-close" class="modal-close" aria-label="Fermer la liste de courses">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+          <line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/>
+        </svg>
+      </button>
+      <div class="modal-body">
+        <h2 id="cart-title">🛒 Liste de courses</h2>
+        <p id="cart-empty" class="cart-empty">Ta liste est vide. Ouvre une recette et appuie sur « Ajouter à la liste de courses ».</p>
+        <ul id="cart-list" class="cart-list"></ul>
+        <div id="cart-actions" class="cart-actions" hidden>
+          <button id="cart-copy" class="btn-primary" type="button">Copier la liste</button>
+          <button id="cart-clear" class="btn-ghost" type="button">Tout vider</button>
+        </div>
+      </div>
+    </article>
+  </div>
+
   <footer class="site-footer">ProteinMeals · fait maison 🍳</footer>
 
-  <script src="js/recipes.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/recipes.js?v=3"></script>
+  <script src="js/app.js?v=3"></script>
 </body>
 </html>
