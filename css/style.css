@@ -445,28 +445,72 @@ body.modal-open { overflow: hidden; }
 
 /* ===================== LISTE DE COURSES ===================== */
 
-/* Bouton dans le popup recette */
+/* Bouton dans le popup recette + sélecteur de quantité */
+.add-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.qty-stepper {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+  background: var(--bg);
+}
+
+.qty-stepper button {
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 3px rgba(27, 31, 28, 0.1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.qty-stepper button:disabled { opacity: 0.35; cursor: default; }
+.qty-stepper button:active:not(:disabled) { background: var(--green-soft); }
+
+#qty-value {
+  min-width: 34px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
 .add-cart-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
-  width: 100%;
-  margin-top: 14px;
-  padding: 13px;
+  flex: 1;
+  min-width: 0;
+  padding: 13px 8px;
   border: 0;
   border-radius: 999px;
   background: var(--green);
   color: #fff;
   font: inherit;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background 0.15s, transform 0.1s;
   -webkit-tap-highlight-color: transparent;
 }
 
-.add-cart-btn svg { width: 19px; height: 19px; }
+.add-cart-btn svg { width: 18px; height: 18px; flex: none; }
+.add-cart-btn span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .add-cart-btn:active { transform: scale(0.98); }
 .add-cart-btn.added { background: #14532D; }
 

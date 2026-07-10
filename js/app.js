@@ -25,6 +25,10 @@
   const modalIngredients = document.getElementById("modal-ingredients");
   const modalSteps = document.getElementById("modal-steps");
   const modalAddCart = document.getElementById("modal-add-cart");
+  const modalAddCartLabel = document.getElementById("modal-add-cart-label");
+  const qtyMinus = document.getElementById("qty-minus");
+  const qtyPlus = document.getElementById("qty-plus");
+  const qtyValue = document.getElementById("qty-value");
 
   // Liste de courses
   const cartBtn = document.getElementById("cart-btn");
@@ -39,12 +43,15 @@
   const cartClear = document.getElementById("cart-clear");
 
   // --- État ---
-  let currentSort = null; // null = alphabétique | "proteines" | "calories"
+  let currentSort = null;    // null = alphabétique | "proteines" | "calories"
   let currentQuery = "";
-  let currentRecipe = null; // recette ouverte dans le popup
+  let currentRecipe = null;  // recette ouverte dans le popup
+  let multiplier = 1;        // nombre de fois la recette (×1, ×2…)
+  let addFeedbackTimer = null;
 
-  // Liste de courses persistante (survit à la fermeture du site)
-  const CART_KEY = "proteinmeals_courses";
+  // Liste de courses persistante : tableau de { nom, unite, qte }
+  // (qte === null pour les ingrédients sans quantité, ex: "sel, poivre")
+  const CART_KEY = "proteinmeals_courses_v2";
   let cart = [];
   try {
     cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
@@ -54,7 +61,11 @@
     try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {}
   }
 
-  // Supprime les accents pour une recherche tolérante ("proteine" trouve "protéiné")
+  // ============================================================
+  // OUTILS DE TEXTE
+  // ============================================================
+
+  // Supprime les accents pour une recherche tolérante
   function normalize(str) {
     return str
       .toLowerCase()
@@ -62,7 +73,67 @@
       .replace(/[\u0300-\u036f]/g, "");
   }
 
-  // --- Filtre + tri ---
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  // "de " ou "d'" selon la première lettre du nom
+  function liaisonDe(nom) {
+    return /^[aeiouyhàâäéèêëîïôöùûü]/i.test(nom) ? "d'" : "de ";
+  }
+
+  // Met le PREMIER mot au pluriel : "gousse d'ail" → "gousses d'ail"
+  function pluriel(nom) {
+    const mots = nom.split(" ");
+    if (!/[sxz]$/i.test(mots[0])) mots[0] += "s";
+    return mots.join(" ");
+  }
+
+  // 0.5 → "½", 1.5 → "1½", 0.25 → "¼", sinon nombre arrondi
+  function fmtQte(q) {
+    const entier = Math.floor(q);
+    const reste = q - entier;
+    let frac = "";
+    if (Math.abs(reste - 0.5) < 0.01) frac = "½";
+    else if (Math.abs(reste - 0.25) < 0.01) frac = "¼";
+    else if (Math.abs(reste - 0.75) < 0.01) frac = "¾";
+    else if (reste > 0.01) return String(Math.round(q * 100) / 100);
+    if (entier === 0) return frac || "0";
+    return String(entier) + frac;
+  }
+
+  /* Texte d'un ingrédient.
+     options.mult    : multiplicateur de quantité
+     options.courses : true pour la liste de courses
+                       (arrondit les unités au supérieur, cache la note) */
+  function ingredientText(ing, options) {
+    const mult = (options && options.mult) || 1;
+    const courses = options && options.courses;
+
+    // Sans quantité ("sel, poivre") : juste le nom
+    if (ing.qte == null) return capitalize(ing.nom);
+
+    let q = ing.qte * mult;
+    let texte;
+
+    if (ing.unite) {
+      // "600 g de blanc de poulet" / "2 c. à soupe d'huile d'olive"
+      texte = fmtQte(q) + " " + ing.unite + " " + liaisonDe(ing.nom) + ing.nom;
+    } else {
+      // À l'unité : dans la liste de courses on arrondit au supérieur
+      // (1½ citron → on achète 2 citrons)
+      if (courses) q = Math.ceil(q);
+      texte = fmtQte(q) + " " + (q > 1 ? pluriel(ing.nom) : ing.nom);
+    }
+
+    if (ing.note && !courses) texte += " (" + ing.note + ")";
+    return texte;
+  }
+
+  // ============================================================
+  // LISTE DES RECETTES (recherche + tri + rendu)
+  // ============================================================
+
   function getVisibleRecipes() {
     let items = RECETTES.filter(function (r) {
       return normalize(r.nom).includes(normalize(currentQuery));
@@ -80,7 +151,6 @@
     return items;
   }
 
-  // --- Rendu de la liste ---
   function render() {
     const items = getVisibleRecipes();
     listEl.innerHTML = "";
@@ -110,7 +180,7 @@
       const meta = document.createElement("div");
       meta.className = "card-meta";
       meta.append(
-        chip("👤 " + r.personnes + (r.personnes > 1 ? " pers." : " pers."), ""),
+        chip("👤 " + r.personnes + " pers.", ""),
         chip("🔥 " + r.calories + " kcal", "cal"),
         chip("💪 " + r.proteines + " g prot.", "protein")
       );
@@ -133,7 +203,6 @@
     return span;
   }
 
-  // --- Recherche ---
   searchEl.addEventListener("input", function () {
     currentQuery = searchEl.value.trim();
     render();
@@ -155,7 +224,7 @@
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
       const value = btn.dataset.sort;
-      // Re-cliquer sur l'option cochée la décoche → retour à l'ordre alphabétique
+      // Re-cliquer sur l'option cochée la décoche → ordre alphabétique
       currentSort = currentSort === value ? null : value;
 
       sortOptions.forEach(function (b) {
@@ -167,35 +236,58 @@
     });
   });
 
-  // Ferme le menu si on clique ailleurs
   document.addEventListener("click", function () {
     if (!sortMenu.hidden) toggleMenu(false);
   });
   sortMenu.addEventListener("click", function (e) { e.stopPropagation(); });
 
-  // --- Popup recette ---
-  function openModal(r) {
-    currentRecipe = r;
-    modalAddCart.classList.remove("added");
-    document.getElementById("modal-add-cart-label").textContent = "Ajouter à la liste de courses";
-    modalImg.src = r.image;
-    modalImg.alt = r.nom;
-    modalTitle.textContent = r.nom;
+  // ============================================================
+  // POPUP RECETTE
+  // ============================================================
 
+  function renderModalStats(r) {
     modalStats.innerHTML = "";
     modalStats.append(
-      chip("👤 " + r.personnes + " pers.", ""),
+      chip("👤 " + (r.personnes * multiplier) + " pers.", ""),
       chip("🔥 " + r.calories + " kcal / pers.", "cal"),
       chip("💪 " + r.proteines + " g prot. / pers.", "protein")
     );
     if (r.temps) modalStats.append(chip("⏱ " + r.temps, ""));
+  }
 
+  function renderModalIngredients(r) {
     modalIngredients.innerHTML = "";
     r.ingredients.forEach(function (ing) {
       const li = document.createElement("li");
-      li.textContent = ing;
+      li.textContent = ingredientText(ing, { mult: multiplier });
       modalIngredients.append(li);
     });
+  }
+
+  function setMultiplier(value) {
+    multiplier = Math.min(9, Math.max(1, value));
+    qtyValue.textContent = "×" + multiplier;
+    qtyMinus.disabled = multiplier === 1;
+    qtyPlus.disabled = multiplier === 9;
+    if (currentRecipe) {
+      renderModalStats(currentRecipe);
+      renderModalIngredients(currentRecipe);
+    }
+  }
+
+  qtyMinus.addEventListener("click", function () { setMultiplier(multiplier - 1); });
+  qtyPlus.addEventListener("click", function () { setMultiplier(multiplier + 1); });
+
+  function openModal(r) {
+    currentRecipe = r;
+    resetAddButton();
+    setMultiplier(1);
+
+    modalImg.src = r.image;
+    modalImg.alt = r.nom;
+    modalTitle.textContent = r.nom;
+    renderModalStats(r);
+    renderModalIngredients(r);
 
     modalSteps.innerHTML = "";
     r.etapes.forEach(function (step) {
@@ -218,7 +310,7 @@
   }
 
   modalClose.addEventListener("click", closeModal);
-  modalBackdrop.addEventListener("click", closeModal); // clic en dehors = fermer
+  modalBackdrop.addEventListener("click", closeModal);
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
     if (!cartModal.hidden) closeCart();
@@ -228,6 +320,11 @@
   // ============================================================
   // LISTE DE COURSES
   // ============================================================
+
+  // Clé d'agrégation : même nom + même unité = même ligne
+  function cartKey(nom, unite) {
+    return normalize(nom) + "|" + (unite || "");
+  }
 
   function updateCartBadge() {
     cartCount.textContent = String(cart.length);
@@ -242,13 +339,13 @@
 
       const text = document.createElement("span");
       text.className = "cart-item-text";
-      text.textContent = item;
+      text.textContent = ingredientText(item, { courses: true });
 
       const remove = document.createElement("button");
       remove.className = "cart-remove";
       remove.type = "button";
       remove.textContent = "✕";
-      remove.setAttribute("aria-label", "Supprimer : " + item);
+      remove.setAttribute("aria-label", "Supprimer : " + item.nom);
       remove.addEventListener("click", function () {
         cart.splice(index, 1);
         saveCart();
@@ -264,22 +361,49 @@
     updateCartBadge();
   }
 
-  // Ajout des ingrédients de la recette ouverte (sans doublons exacts)
+  // Ajoute les ingrédients de la recette ouverte, × le multiplicateur.
+  // Même nom + même unité → les quantités S'ADDITIONNENT.
   modalAddCart.addEventListener("click", function () {
     if (!currentRecipe) return;
-    let added = 0;
+
     currentRecipe.ingredients.forEach(function (ing) {
-      if (!cart.includes(ing)) {
-        cart.push(ing);
-        added++;
+      const key = cartKey(ing.nom, ing.unite);
+      const existing = cart.find(function (it) {
+        return cartKey(it.nom, it.unite) === key;
+      });
+
+      if (ing.qte == null) {
+        // Sans quantité : une seule fois dans la liste
+        if (!existing) cart.push({ nom: ing.nom, unite: null, qte: null });
+      } else if (existing && existing.qte != null) {
+        existing.qte += ing.qte * multiplier;
+      } else {
+        cart.push({ nom: ing.nom, unite: ing.unite || null, qte: ing.qte * multiplier });
       }
     });
+
+    // Liste triée alphabétiquement, plus pratique en magasin
+    cart.sort(function (a, b) {
+      return a.nom.localeCompare(b.nom, "fr", { sensitivity: "base" });
+    });
+
     saveCart();
     renderCart();
+
+    // Retour visuel, puis le bouton redevient cliquable pour ré-ajouter
     modalAddCart.classList.add("added");
-    document.getElementById("modal-add-cart-label").textContent =
-      added > 0 ? "Ajouté à la liste ✓" : "Déjà dans la liste ✓";
+    modalAddCartLabel.textContent = multiplier > 1
+      ? "Ajouté ×" + multiplier + " ✓"
+      : "Ajouté à la liste ✓";
+    clearTimeout(addFeedbackTimer);
+    addFeedbackTimer = setTimeout(resetAddButton, 1600);
   });
+
+  function resetAddButton() {
+    clearTimeout(addFeedbackTimer);
+    modalAddCart.classList.remove("added");
+    modalAddCartLabel.textContent = "Ajouter à la liste de courses";
+  }
 
   // Ouverture / fermeture du popup liste de courses
   function openCart() {
@@ -302,7 +426,9 @@
   // Copier toute la liste dans le presse-papiers
   cartCopy.addEventListener("click", function () {
     const texte = "🛒 Liste de courses ProteinMeals\n\n" +
-      cart.map(function (item) { return "- " + item; }).join("\n");
+      cart.map(function (item) {
+        return "- " + ingredientText(item, { courses: true });
+      }).join("\n");
 
     function feedback(ok) {
       cartCopy.textContent = ok ? "Copié ✓" : "Impossible de copier";

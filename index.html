@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
 
@@ -70,13 +70,20 @@
       <div class="modal-body">
         <h2 id="modal-title"></h2>
         <div id="modal-stats" class="modal-stats"></div>
-        <button id="modal-add-cart" class="add-cart-btn" type="button">
+        <div class="add-row">
+          <div class="qty-stepper" aria-label="Nombre de fois la recette">
+            <button id="qty-minus" type="button" aria-label="Moins">−</button>
+            <span id="qty-value">×1</span>
+            <button id="qty-plus" type="button" aria-label="Plus">+</button>
+          </div>
+          <button id="modal-add-cart" class="add-cart-btn" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="9" cy="21" r="1.6"/><circle cx="19" cy="21" r="1.6"/>
             <path d="M2 3h3l2.6 12.5a1.8 1.8 0 0 0 1.8 1.5h9.2a1.8 1.8 0 0 0 1.8-1.4L22 7H6"/>
           </svg>
           <span id="modal-add-cart-label">Ajouter à la liste de courses</span>
         </button>
+        </div>
         <h3>Ingrédients</h3>
         <ul id="modal-ingredients" class="ingredients"></ul>
         <h3>Préparation</h3>
@@ -117,7 +124,7 @@
 
   <footer class="site-footer">ProteinMeals · fait maison 🍳</footer>
 
-  <script src="js/recipes.js?v=3"></script>
-  <script src="js/app.js?v=3"></script>
+  <script src="js/recipes.js?v=4"></script>
+  <script src="js/app.js?v=4"></script>
 </body>
 </html>

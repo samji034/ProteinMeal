@@ -6,15 +6,27 @@
    2. Remplis les champs
    3. C'est tout. Le site se met à jour tout seul.
 
-   Champs :
-   - nom        : nom du plat
-   - image      : URL d'une image (libre de droit, ex: unsplash.com)
-   - personnes  : nombre de personnes
-   - calories   : kcal PAR PERSONNE
-   - proteines  : grammes de protéines PAR PERSONNE
-   - temps      : temps de préparation (texte libre)
-   - ingredients: liste des ingrédients (un par ligne)
-   - etapes     : liste des étapes (une par ligne)
+   FORMAT D'UN INGRÉDIENT (important pour la liste de courses !) :
+   { qte: 300, unite: "g", nom: "blanc de poulet" }
+     → affiche "300 g de blanc de poulet"
+     → la liste de courses ADDITIONNE les quantités du même nom
+
+   { qte: 1, nom: "citron" }            → "1 citron" (à l'unité)
+   { qte: 0.5, nom: "citron", note: "le jus" } → "½ citron (le jus)"
+     → dans la liste de courses : 1 + 0.5 = 1.5 → arrondi à "2 citrons"
+
+   { nom: "sel, poivre" }               → sans quantité, jamais dupliqué
+
+   Règles :
+   - qte   : nombre (0.5 = ½, 0.25 = ¼). Omets-le si pas de quantité.
+   - unite : "g", "ml", "c. à soupe", "c. à café", "pincée", "poignée"…
+             Omets-la pour les choses à l'unité (citron, œuf, avocat…).
+   - nom   : TOUJOURS AU SINGULIER pour les unités ("citron", "œuf",
+             "gousse d'ail") → le site met le pluriel tout seul.
+             Utilise EXACTEMENT le même nom d'une recette à l'autre
+             pour que les quantités s'additionnent.
+   - note  : précision optionnelle, entre parenthèses à l'affichage
+             (elle n'apparaît pas dans la liste de courses).
    ============================================================ */
 
 const RECETTES = [
@@ -26,14 +38,14 @@ const RECETTES = [
     proteines: 42,
     temps: "25 min",
     ingredients: [
-      "300 g de blanc de poulet",
-      "150 g de quinoa cru",
-      "1 avocat",
-      "150 g de tomates cerises",
-      "1 poignée de jeunes pousses d'épinards",
-      "1 c. à soupe d'huile d'olive",
-      "Jus d'un demi-citron",
-      "Sel, poivre, paprika"
+      { qte: 300, unite: "g", nom: "blanc de poulet" },
+      { qte: 150, unite: "g", nom: "quinoa" },
+      { qte: 1, nom: "avocat" },
+      { qte: 150, unite: "g", nom: "tomates cerises" },
+      { qte: 1, unite: "poignée", nom: "jeunes pousses d'épinards" },
+      { qte: 1, unite: "c. à soupe", nom: "huile d'olive" },
+      { qte: 0.5, nom: "citron", note: "le jus" },
+      { nom: "sel, poivre, paprika" }
     ],
     etapes: [
       "Rincer le quinoa puis le cuire 12 à 15 min dans 2 fois son volume d'eau salée. Égoutter.",
@@ -52,14 +64,14 @@ const RECETTES = [
     proteines: 38,
     temps: "30 min",
     ingredients: [
-      "2 pavés de saumon (140 g chacun)",
-      "1 courgette",
-      "1 poivron rouge",
-      "200 g de brocoli",
-      "2 c. à soupe d'huile d'olive",
-      "1 gousse d'ail",
-      "1 citron",
-      "Sel, poivre, herbes de Provence"
+      { qte: 2, nom: "pavé de saumon", note: "140 g chacun" },
+      { qte: 1, nom: "courgette" },
+      { qte: 1, nom: "poivron rouge" },
+      { qte: 200, unite: "g", nom: "brocoli" },
+      { qte: 2, unite: "c. à soupe", nom: "huile d'olive" },
+      { qte: 1, nom: "gousse d'ail" },
+      { qte: 1, nom: "citron" },
+      { nom: "sel, poivre, herbes de Provence" }
     ],
     etapes: [
       "Préchauffer le four à 200 °C.",
@@ -78,13 +90,13 @@ const RECETTES = [
     proteines: 45,
     temps: "35 min",
     ingredients: [
-      "2 steaks de bœuf (180 g chacun)",
-      "500 g de patates douces",
-      "1 c. à soupe d'huile d'olive",
-      "20 g de beurre",
-      "2 gousses d'ail",
-      "Quelques branches de thym",
-      "Sel, poivre"
+      { qte: 2, nom: "steak de bœuf", note: "180 g chacun" },
+      { qte: 500, unite: "g", nom: "patates douces" },
+      { qte: 1, unite: "c. à soupe", nom: "huile d'olive" },
+      { qte: 20, unite: "g", nom: "beurre" },
+      { qte: 2, nom: "gousse d'ail" },
+      { qte: 3, nom: "branche de thym" },
+      { nom: "sel, poivre" }
     ],
     etapes: [
       "Préchauffer le four à 210 °C.",
@@ -103,12 +115,12 @@ const RECETTES = [
     proteines: 22,
     temps: "15 min",
     ingredients: [
-      "2 tranches de pain complet",
-      "1 avocat mûr",
-      "2 œufs",
-      "1 c. à soupe de vinaigre blanc",
-      "Piment d'Espelette",
-      "Sel, poivre"
+      { qte: 2, nom: "tranche de pain complet" },
+      { qte: 1, nom: "avocat", note: "bien mûr" },
+      { qte: 2, nom: "œuf" },
+      { qte: 1, unite: "c. à soupe", nom: "vinaigre blanc" },
+      { nom: "piment d'Espelette" },
+      { nom: "sel, poivre" }
     ],
     etapes: [
       "Porter une casserole d'eau à frémissement avec le vinaigre.",
@@ -126,15 +138,15 @@ const RECETTES = [
     proteines: 18,
     temps: "30 min",
     ingredients: [
-      "250 g de lentilles corail",
-      "400 ml de lait de coco",
-      "1 oignon",
-      "2 gousses d'ail",
-      "1 c. à soupe de curry en poudre",
-      "1 c. à café de curcuma",
-      "400 g de tomates concassées",
-      "1 c. à soupe d'huile",
-      "Coriandre fraîche, sel"
+      { qte: 250, unite: "g", nom: "lentilles corail" },
+      { qte: 400, unite: "ml", nom: "lait de coco" },
+      { qte: 1, nom: "oignon" },
+      { qte: 2, nom: "gousse d'ail" },
+      { qte: 1, unite: "c. à soupe", nom: "curry en poudre" },
+      { qte: 1, unite: "c. à café", nom: "curcuma" },
+      { qte: 400, unite: "g", nom: "tomates concassées" },
+      { qte: 1, unite: "c. à soupe", nom: "huile" },
+      { nom: "coriandre fraîche, sel" }
     ],
     etapes: [
       "Émincer l'oignon et l'ail, les faire revenir 3 min dans l'huile.",
@@ -153,13 +165,13 @@ const RECETTES = [
     proteines: 28,
     temps: "20 min",
     ingredients: [
-      "2 bananes mûres",
-      "3 œufs",
-      "60 g de flocons d'avoine",
-      "30 g de whey (vanille ou nature)",
-      "1 c. à café de levure chimique",
-      "1 pincée de cannelle",
-      "Un peu d'huile de coco pour la poêle"
+      { qte: 2, nom: "banane", note: "bien mûres" },
+      { qte: 3, nom: "œuf" },
+      { qte: 60, unite: "g", nom: "flocons d'avoine" },
+      { qte: 30, unite: "g", nom: "whey", note: "vanille ou nature" },
+      { qte: 1, unite: "c. à café", nom: "levure chimique" },
+      { qte: 1, unite: "pincée", nom: "cannelle" },
+      { nom: "huile de coco pour la poêle" }
     ],
     etapes: [
       "Mixer tous les ingrédients jusqu'à obtenir une pâte lisse.",
