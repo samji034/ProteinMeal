@@ -461,11 +461,9 @@
   // Tout vider
   cartClear.addEventListener("click", function () {
     if (cart.length === 0) return;
-    if (confirm("Vider toute la liste de courses ?")) {
-      cart = [];
-      saveCart();
-      renderCart();
-    }
+    cart = [];
+    saveCart();
+    renderCart();
   });
 
   // --- Premier rendu ---
